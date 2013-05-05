@@ -4,13 +4,13 @@ html
     head
 
         != css('viewport')
-        script(src = '/viewport/three.js')
-        script(src = '/viewport/require.js')
+
+        script(
+            data-main="viewport/main"
+            src = 'viewport/require.js'
+        )
     
     body
         
         div#viewport
 
-    script
-
-        
