@@ -1,9 +1,11 @@
 http           = require 'http'
+assets         = require 'connect-assets'
 express        = require 'express'
 io             = require 'socket.io'
+viewport       = require 'viewport' 
+
 host           = 'localhost'
 port           = 3000
-viewport       = require 'viewport' 
 
 module.exports = 
 
@@ -18,6 +20,7 @@ module.exports =
 
         app.set 'views', root + '/views'
         app.set 'view engine', 'jade'
+        app.use assets()
 
         app.get '/', (req, res) -> res.render 'index'
 
