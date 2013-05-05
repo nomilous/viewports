@@ -1,0 +1,11 @@
+#!/usr/bin/env coffee
+
+require('nez').objective 'viewports',
+
+    category: 'Web Application'
+
+    description: """
+
+    syncronize control of a vewport segmented across multiple browser windows 
+
+    """, (requirement) -> 
