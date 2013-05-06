@@ -16,7 +16,9 @@ module.exports =
         sockets = io.listen server
 
         app.use express.logger 'dev'
+
         app.use viewport.scripts
+        viewport.connect sockets
 
         app.set 'views', root + '/views'
         app.set 'view engine', 'jade'
