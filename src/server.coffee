@@ -18,7 +18,7 @@ module.exports =
         app.use express.logger 'dev'
 
         app.use viewport.scripts
-        viewport.connect sockets
+        viewport.listen sockets
 
         app.set 'views', root + '/views'
         app.set 'view engine', 'jade'
