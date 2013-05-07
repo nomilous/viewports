@@ -2,7 +2,8 @@ http           = require 'http'
 assets         = require 'connect-assets'
 express        = require 'express'
 io             = require 'socket.io'
-viewport       = require 'viewport' 
+viewport       = require 'viewport'
+shape          = require 'shape'
 
 host           = 'localhost'
 port           = 3000
@@ -19,6 +20,9 @@ module.exports =
 
         app.use viewport.scripts
         viewport.listen sockets
+
+        app.use shape.scripts
+        shape.listen sockets
 
         app.set 'views', root + '/views'
         app.set 'view engine', 'jade'
