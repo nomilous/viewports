@@ -5,6 +5,14 @@ html
 
         != css('viewport')
 
+        //
+        // TODO: - huh the miltiple module/path symantics of requirejs?
+        //       - move main.js and require.js into local public/
+        //       - require viewport and shape components from main
+        // 
+        // script(src = 'shape/shape.js')
+        //
+
         script(
             data-main="viewport/main"
             src = 'viewport/require.js'

@@ -21,8 +21,12 @@ module.exports =
         app.use viewport.scripts
         viewport.listen sockets
 
-        app.use shape.scripts
-        shape.listen sockets
+        shape.init 
+
+            path: root + '/resource/shapes'
+            sockets: sockets
+            app: app
+
 
         app.set 'views', root + '/views'
         app.set 'view engine', 'jade'
