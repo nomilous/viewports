@@ -1,0 +1,47 @@
+<!DOCTYPE html>  <html> <head>   <title>node.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="adaptor.html">                 adaptor.coffee               </a>                                           <a class="source" href="context.html">                 context.coffee               </a>                                           <a class="source" href="edge.html">                 edge.coffee               </a>                                           <a class="source" href="node.html">                 node.coffee               </a>                                           <a class="source" href="opts.html">                 opts.coffee               </a>                                           <a class="source" href="plex.html">                 plex.coffee               </a>                                           <a class="source" href="plugin.html">                 plugin.coffee               </a>                                           <a class="source" href="tree.html">                 tree.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               node.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Node is the baseclass that represents the
+running <a href="plex.html">Plex</a> instance.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Node</span> <span class="k">extends</span> <span class="nx">require</span><span class="p">(</span><span class="s">&#39;./context&#39;</span><span class="p">)</span>
+
+    <span class="nv">constructor: </span><span class="o">-&gt;</span> </pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p><code>node.start()</code> <strong>a new instance running</strong></p>
+
+<p>This returns the running <a href="context.html">Context</a></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">start: </span><span class="nf">( opts = {} ) -&gt;</span> 
+
+        <span class="nv">context = </span><span class="k">new</span> <span class="p">(</span><span class="nx">require</span> <span class="s">&#39;./context&#39;</span><span class="p">)</span> <span class="nx">opts</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p><strong>To configure the node to listen</strong></p>
+
+<pre>
+context = node.start
+  listen: 
+    adaptor: 'name'
+       # 
+       # see  ./adaptors/*-adaptor
+       # 
+</pre>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nv">context.adaptor = </span><span class="nx">@listen</span> <span class="nx">context</span> <span class="k">if</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">listen</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p><strong>To configure the node to connect</strong></p>
+
+<pre>
+node.start 
+  connect: 
+    adaptor: 'name'
+       #
+       # see  ./edges/*-edge
+       # 
+</pre>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nv">context.uplink = </span><span class="nx">@connect</span> <span class="nx">context</span> <span class="k">if</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">connect</span>
+
+
+
+        <span class="k">return</span> <span class="nx">context</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p><strong>listen() using opts.listen.adaptor</strong></p>
+
+<ul>
+<li><p>Starts a listening Adaptor that multiple edges
+may attach to</p></li>
+<li><p>Return the listening Adaptor</p></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">listen: </span><span class="nf">( context ) -&gt;</span> </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>console.log '\nNode().listen()'</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">return</span> <span class="p">(</span> <span class="nx">require</span> <span class="s">&#39;./adaptor&#39;</span> <span class="p">).</span><span class="nx">listen</span> <span class="nx">context</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p><strong>connect() using opts.connect.adaptor</strong></p>
+
+<ul>
+<li><p>Connects the edge to some remote Adaptor</p></li>
+<li><p>Sends a Handshake message</p></li>
+<li><p>Returns the connected edge</p></li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">connect: </span><span class="nf">( context ) -&gt;</span> </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>console.log 'Node().connect()'</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">return</span> <span class="p">(</span> <span class="nx">require</span> <span class="s">&#39;./edge&#39;</span> <span class="p">).</span><span class="nx">connect</span> <span class="nx">context</span>
+
+
+<span class="nv">module.exports = </span><span class="nx">Node</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

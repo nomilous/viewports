@@ -1,0 +1,89 @@
+<!DOCTYPE html>  <html> <head>   <title>tree.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="adaptor.html">                 adaptor.coffee               </a>                                           <a class="source" href="context.html">                 context.coffee               </a>                                           <a class="source" href="edge.html">                 edge.coffee               </a>                                           <a class="source" href="node.html">                 node.coffee               </a>                                           <a class="source" href="opts.html">                 opts.coffee               </a>                                           <a class="source" href="plex.html">                 plex.coffee               </a>                                           <a class="source" href="plugin.html">                 plugin.coffee               </a>                                           <a class="source" href="tree.html">                 tree.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               tree.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>Tree is used internally by <a href="plex.html">Plex</a> to manage
+and maintain the tree topology.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nx">Tree</span>
+
+    <span class="nv">constructor: </span><span class="nf">(@context) -&gt;</span> </pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p><code>tree.context</code> houses the <a href="context.html">Context</a> 
+of this <a href="node.html">Node</a> </p>
+
+<p><code>tree.edges.local</code> houses the list of adjacent Nodes
+in the branch rooted at this Node</p>
+
+<p><code>tree.edges.remote</code> house remote edges (not adjacent)</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="vi">@edges = </span>
+            <span class="nv">local: </span><span class="p">{}</span>
+            <span class="nv">remote: </span><span class="p">{}</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p><code>tree.insertLocal()</code> <strong>a new edge into the tree</strong></p>
+
+<p><strong>localEdge</strong> - expects the <a href="edge.html">Edge</a> that represents
+the localside of the connection.</p>
+
+<p><strong>connectData</strong> - expects the payload of the <strong>event:connect</strong> 
+message that was sent by the remote side at handshake</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">insertLocal: </span><span class="nf">(localEdge, connectData) -&gt;</span> </pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Create a record of the edge</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nv">id = </span><span class="nx">localEdge</span><span class="p">.</span><span class="nx">localId</span><span class="p">()</span>
+
+        <span class="nx">@edges</span><span class="p">.</span><span class="nx">local</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="o">=</span> 
+
+            <span class="nv">local: </span>
+
+                <span class="nv">mode: </span><span class="nx">@context</span><span class="p">.</span><span class="nx">mode</span>
+                <span class="nv">globalId: </span><span class="nx">@context</span><span class="p">.</span><span class="nx">globalId</span><span class="p">()</span>
+                
+
+            <span class="nv">remote: </span><span class="nx">connectData</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Send notification rootward</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">mode</span> <span class="o">!=</span> <span class="s">&#39;root&#39;</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">uplink</span><span class="p">.</span><span class="nx">getPublisher</span><span class="p">()</span> <span class="s">&#39;event:edge:connect&#39;</span><span class="p">,</span> <span class="nx">@edges</span><span class="p">.</span><span class="nx">local</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span>
+
+        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span> <span class="o">and</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">localEdge</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">localEdge</span> <span class="nx">@context</span><span class="p">,</span> <span class="nx">localEdge</span>
+
+
+
+
+    <span class="nv">insertRemote: </span><span class="nf">(connectData) -&gt;</span>
+
+        <span class="nv">id = </span><span class="nx">connectData</span><span class="p">.</span><span class="nx">local</span><span class="p">.</span><span class="nx">globalId</span>
+
+        <span class="nx">@edges</span><span class="p">.</span><span class="nx">remote</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">connectData</span>
+
+        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">mode</span> <span class="o">!=</span> <span class="s">&#39;root&#39;</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">uplink</span><span class="p">.</span><span class="nx">getPublisher</span><span class="p">()</span> <span class="s">&#39;event:edge:connect&#39;</span><span class="p">,</span> <span class="nx">@edges</span><span class="p">.</span><span class="nx">remote</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span>
+
+        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span> <span class="o">and</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">remoteEdge</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">remoteEdge</span> <span class="nx">@context</span><span class="p">,</span> <span class="nx">connectData</span>
+
+
+    <span class="nv">removeLocal: </span><span class="nf">(localEdge) -&gt;</span> 
+
+        <span class="nv">id = </span><span class="nx">localEdge</span><span class="p">.</span><span class="nx">localId</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="nx">unless</span> <span class="nx">@edges</span><span class="p">.</span><span class="nx">local</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span>
+
+        <span class="nx">@edges</span><span class="p">.</span><span class="nx">local</span><span class="p">[</span> <span class="nx">id</span> <span class="p">].</span><span class="nv">disconnected = </span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">mode</span> <span class="o">!=</span> <span class="s">&#39;root&#39;</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">uplink</span><span class="p">.</span><span class="nx">getPublisher</span><span class="p">()</span> <span class="s">&#39;event:edge:disconnect&#39;</span><span class="p">,</span> <span class="nx">@edges</span><span class="p">.</span><span class="nx">local</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span>
+
+        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span> <span class="o">and</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">localEdge</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">localEdge</span> <span class="nx">@context</span><span class="p">,</span> <span class="nx">localEdge</span>
+
+
+    <span class="nv">removeRemote: </span><span class="nf">(disconnectData) -&gt;</span> 
+
+        <span class="nv">id = </span><span class="nx">disconnectData</span><span class="p">.</span><span class="nx">local</span><span class="p">.</span><span class="nx">globalId</span>
+
+        <span class="nx">@edges</span><span class="p">.</span><span class="nx">remote</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span> <span class="o">=</span> <span class="nx">disconnectData</span>
+
+        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">mode</span> <span class="o">!=</span> <span class="s">&#39;root&#39;</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">uplink</span><span class="p">.</span><span class="nx">getPublisher</span><span class="p">()</span> <span class="s">&#39;event:edge:disconnect&#39;</span><span class="p">,</span> <span class="nx">@edges</span><span class="p">.</span><span class="nx">remote</span><span class="p">[</span> <span class="nx">id</span> <span class="p">]</span>
+
+        <span class="k">if</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span> <span class="o">and</span> <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">remoteEdge</span>
+
+            <span class="nx">@context</span><span class="p">.</span><span class="nx">onChange</span><span class="p">.</span><span class="nx">remoteEdge</span> <span class="nx">@context</span><span class="p">,</span> <span class="nx">disconnectData</span>
+
+
+
+<span class="nv">module.exports = </span><span class="nx">Tree</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

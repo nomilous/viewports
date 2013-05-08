@@ -1,0 +1,36 @@
+<!DOCTYPE html>  <html> <head>   <title>context.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="adaptor.html">                 adaptor.coffee               </a>                                           <a class="source" href="context.html">                 context.coffee               </a>                                           <a class="source" href="edge.html">                 edge.coffee               </a>                                           <a class="source" href="node.html">                 node.coffee               </a>                                           <a class="source" href="opts.html">                 opts.coffee               </a>                                           <a class="source" href="plex.html">                 plex.coffee               </a>                                           <a class="source" href="plugin.html">                 plugin.coffee               </a>                                           <a class="source" href="tree.html">                 tree.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               context.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>Context carries reference to all the necessary
+components for <a href="plex.html">Plex</a> to function.</p>
+
+<p><code>context.edges</code> A collection of all locally 
+                attached Edge <strong>instances</strong></p>
+
+<p><code>context.tree</code> A reference to the <a href="tree.html">Tree</a></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">os = </span><span class="nx">require</span> <span class="s">&#39;os&#39;</span>
+
+<span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Context</span> <span class="k">extends</span> <span class="nx">require</span><span class="p">(</span><span class="s">&#39;events&#39;</span><span class="p">).</span><span class="nx">EventEmitter</span>
+
+    <span class="nv">constructor: </span><span class="nf">( opts = {} ) -&gt;</span> 
+
+        <span class="k">for</span> <span class="nx">property</span> <span class="k">of</span> <span class="nx">opts</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>All configured properties are loaded 
+into the Context instance.</p>             </td>             <td class="code">               <div class="highlight"><pre>            <span class="nx">@</span><span class="p">[</span><span class="nx">property</span><span class="p">]</span> <span class="o">=</span> <span class="nx">opts</span><span class="p">[</span><span class="nx">property</span><span class="p">]</span>
+    
+        <span class="vi">@tree = </span><span class="k">new</span> <span class="p">(</span><span class="nx">require</span> <span class="s">&#39;./tree&#39;</span><span class="p">)</span> <span class="k">this</span>
+
+
+
+
+        <span class="vi">@edges = </span><span class="p">{}</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p><code>context.globalId()</code> <strong>provides a globally unique identity</strong></p>
+
+<p>Facility to override can be placed among the config:</p>
+
+<pre>
+plex.start 
+  ..
+  ..
+  globalId: -> 'something unique'
+  ..
+  ..
+</pre>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">globalId: </span><span class="o">-&gt;</span> 
+
+        <span class="s">&quot;</span><span class="si">#{</span> <span class="nx">os</span><span class="p">.</span><span class="nx">hostname</span><span class="p">()</span> <span class="si">}</span><span class="s">%</span><span class="si">#{</span> <span class="nx">process</span><span class="p">.</span><span class="nx">pid</span> <span class="si">}</span><span class="s">&quot;</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

@@ -1,0 +1,94 @@
+<!DOCTYPE html>  <html> <head>   <title>plex.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="adaptor.html">                 adaptor.coffee               </a>                                           <a class="source" href="context.html">                 context.coffee               </a>                                           <a class="source" href="edge.html">                 edge.coffee               </a>                                           <a class="source" href="node.html">                 node.coffee               </a>                                           <a class="source" href="opts.html">                 opts.coffee               </a>                                           <a class="source" href="plex.html">                 plex.coffee               </a>                                           <a class="source" href="plugin.html">                 plugin.coffee               </a>                                           <a class="source" href="tree.html">                 tree.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               plex.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nv">Node = </span><span class="nx">require</span> <span class="s">&#39;./node&#39;</span>
+<span class="nv">opts = </span><span class="nx">require</span> <span class="s">&#39;./opts&#39;</span>
+
+<span class="nv">plex = </span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p><strong>function</strong> <code>plex.start</code> </p>
+
+<ul>
+<li>Starts the server</li>
+</ul>
+
+<p><em>Usage</em></p>
+
+<pre>
+plex = require 'plex'
+
+plex.start
+
+   secret: 'SEEKRIT'
+
+   connect:
+      adaptor: 'socket.io'
+      uri: 'http://rootward.proxy:3000'
+
+   listen:
+      # listen for leaves/childProxies
+      adaptor: 'socket.io'
+      port: 12340
+
+</pre>             </td>             <td class="code">               <div class="highlight"><pre>    
+    <span class="nv">start: </span><span class="nf">( opts = {} ) -&gt;</span> 
+
+        <span class="k">if</span> <span class="k">typeof</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">config</span> <span class="o">!=</span> <span class="s">&#39;undefined&#39;</span>
+
+            <span class="nv">node = </span><span class="nx">opts</span>
+            <span class="nv">opts = </span><span class="nx">node</span><span class="p">.</span><span class="nx">config</span><span class="p">()</span>
+
+        <span class="k">else</span>
+
+            <span class="nv">node = </span><span class="k">new</span> <span class="nx">Node</span>
+
+
+        <span class="nx">plex</span><span class="p">.</span><span class="nx">opts</span><span class="p">.</span><span class="nx">validate</span> <span class="nx">opts</span>
+
+        <span class="k">if</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">listen</span>
+
+            <span class="k">if</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">connect</span>
+
+                <span class="nv">opts.mode = </span><span class="s">&#39;proxy&#39;</span>
+        
+            <span class="k">else</span>
+
+                <span class="nv">opts.mode = </span><span class="s">&#39;root&#39;</span>
+
+
+         <span class="k">if</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">connect</span> <span class="o">and</span> <span class="o">not</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">mode</span>
+
+            <span class="nv">opts.mode = </span><span class="s">&#39;leaf&#39;</span>
+
+
+        <span class="k">return</span> <span class="nx">node</span><span class="p">.</span><span class="nx">start</span> <span class="nx">opts</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>questionable as necessary?:</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">supportedAdaptors: </span><span class="s">&#39;socket.io&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p><strong>class</strong> <code>plex.Node</code> </p>
+
+<ul>
+<li>Returns the <a href="node.html">Node</a> class for extension</li>
+<li>Constructor should assemble <a href="opts.html">opts</a> </li>
+</ul>
+
+<p><em>Usage</em></p>
+
+<pre>
+plex = require 'plex'
+
+class MyNode extends plex.Node
+
+    constructor: (args) ->
+
+        #
+        # assemble @opts from args
+        #
+
+node = new MyNode 'my', 'args'
+context = plex.start node
+
+</pre>
+
+<p>see <a href="context.html">Context</a></p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">Node: </span><span class="nx">Node</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p><strong>literal</strong> <code>plex.opts</code></p>
+
+<ul>
+<li>Returns <a href="opts.html">opts</a> object literal</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">opts: </span><span class="nx">opts</span>
+
+
+
+<span class="nv">module.exports = </span><span class="nx">plex</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
