@@ -1,7 +1,7 @@
 http           = require 'http'
 assets         = require 'connect-assets'
 express        = require 'express'
-io             = require 'socket.io'
+plex           = require 'plex'
 viewport       = require 'viewport'
 shape          = require 'shape'
 
@@ -14,18 +14,23 @@ module.exports =
 
         app     = express()
         server  = http.createServer app
-        sockets = io.listen server
 
         app.use express.logger 'dev'
 
         app.use viewport.scripts
-        viewport.listen sockets
+        app.use shape.scripts
 
-        shape.init 
+        plex.start
 
-            path: root + '/resource/shapes'
-            sockets: sockets
-            app: app
+            secret: 'SEEKRIT'
+
+            listen: 
+                server: server
+                adaptor: 'socket.io'
+
+            protocol: (When, Then) -> 
+
+                shape.protocol When, Then
 
 
         app.set 'views', root + '/views'
