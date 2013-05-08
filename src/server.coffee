@@ -28,10 +28,11 @@ module.exports =
                 server: server
                 adaptor: 'socket.io'
 
-            protocol: (When, Then) -> 
+            protocol: (When, Then, edge) -> 
 
-                shape.protocol When, Then
-
+                viewport.protocol When, Then, edge
+                shape.protocol When, Then, edge
+                
 
         app.set 'views', root + '/views'
         app.set 'view engine', 'jade'
