@@ -1,3 +1,7 @@
-require ['submodule'], (submodule) -> 
+requirejs.config
+
+    'packages': ['viewport']
+
+requirejs ['viewport'], (viewport) -> 
     
-    submodule.run()
+    console.log viewport

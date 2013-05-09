@@ -22,7 +22,7 @@ module.exports =
         app.use rjsm
             src: path.join root, 'lib'
             dest: path.join root, 'public'
-            build: true
+            build: false
             debug: true
             modules: 
                 '/main.js': 
@@ -30,8 +30,7 @@ module.exports =
                     include: 'main'
                     optimize: 'none'
 
-
-        # app.use viewport.scripts
+        app.use viewport.scripts
         # app.use shape.scripts
 
         # plex.start
