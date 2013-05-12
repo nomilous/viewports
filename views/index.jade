@@ -3,20 +3,7 @@ html
 
     head
 
-        != css('viewport')
-
-        //
-        // TODO: - huh the miltiple module/path symantics of requirejs?
-        //       - move main.js and require.js into local public/
-        //       - require viewport and shape components from main
-        // 
-        // script(src = 'shape/shape.js')
-        //
-
-        script( src='/viewport/viewport.js' )
-        script( src='/viewport/uplink.js' )
-        script( src='/viewport/controls.js' )
-        script( src='/viewport/view.js' )
+        != css('style')
 
         script(
             data-main = 'main.js' 
