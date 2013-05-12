@@ -2,6 +2,12 @@ requirejs.config
 
     'packages': ['viewport']
 
-requirejs ['viewport'], (viewport) -> 
+requirejs ['viewport'], (Viewport) -> 
+
+    try
     
-    console.log viewport
+        new Viewport
+
+    catch error
+
+        console.log error
