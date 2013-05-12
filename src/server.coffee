@@ -32,9 +32,7 @@ module.exports =
 
         # viewport.client path.join(root, 'public/viewport'), app
 
-        viewport.mount 
-
-            app: app
+        viewport.mount app: app
 
 
         # app.use shape.scripts
