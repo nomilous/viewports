@@ -2,8 +2,8 @@ http           = require 'http'
 path           = require 'path'
 assets         = require 'connect-assets'
 express        = require 'express'
+io             = require 'socket.io'
 rjsm           = require 'requirejs-middleware'
-plex           = require 'plex'
 viewport       = require 'viewport'
 shape          = require 'shape'
 
@@ -30,24 +30,13 @@ module.exports =
                     include: 'main'
                     optimize: 'none'
 
-        viewport.mount app: app
+
+        viewport.mount 
+            sockets: io.listen server
+            app: app
 
 
-        # app.use shape.scripts
-
-        # plex.start
-
-        #     secret: 'SEEKRIT'
-
-        #     listen: 
-        #         server: server
-        #         adaptor: 'socket.io'
-
-        #     protocol: (When, Then, edge) -> 
-
-        #         viewport.protocol When, Then, edge
-        #         shape.protocol When, Then, edge
-                
+        # app.use shape.scripts      
 
         app.set 'views', root + '/views'
         app.set 'view engine', 'jade'

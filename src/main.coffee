@@ -2,12 +2,10 @@ requirejs.config
 
     'packages': ['viewport']
 
-requirejs ['viewport'], (Viewport) -> 
+requirejs ['/socket.io/socket.io.js', 'viewport'], (io, Viewport) -> 
 
-    try
-    
-        new Viewport
+    new Viewport
 
-    catch error
-
-        console.log error
+        container: document.getElementById 'viewport'
+        socket: io.connect()
+        group: 'viewport groupname'

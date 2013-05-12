@@ -12,9 +12,9 @@
     "request": "~2.16.6",
     "viewport": "0.0.0",
     "shape": "0.0.0",
-    "plex": "0.0.7",
     "requirejs-middleware": "0.0.5",
-    "requirejs": "~2.1.5"
+    "requirejs": "~2.1.5",
+    "socket.io": "~0.9.14"
   },
   "devDependencies": {
     "nez": "0.0.7",
