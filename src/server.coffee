@@ -30,7 +30,13 @@ module.exports =
                     include: 'main'
                     optimize: 'none'
 
-        viewport.client path.join(root, 'public/viewport'), app
+        # viewport.client path.join(root, 'public/viewport'), app
+
+        viewport.mount 
+
+            app: app
+
+
         # app.use shape.scripts
 
         # plex.start
